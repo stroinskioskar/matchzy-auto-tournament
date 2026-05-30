@@ -471,6 +471,17 @@ export default function Matches() {
     }
   };
 
+  const handleForceAllocate = async (slug: string) => {
+    try {
+      await api.post(`/api/matches/${slug}/force-allocate`);
+      showSuccess(t('Alokacja wymuszona dla ' + slug));
+      await fetchMatches(); 
+    } catch (err) {
+      showError(t('Błąd podczas wymuszania alokacji'));
+      console.error(err);
+    }
+  };
+
   if (loading) {
     return (
       <Box>
@@ -763,6 +774,19 @@ export default function Matches() {
                           }
                         }}
                       />
+                      {match.status === 'ready' && match.serverId === null && (
+                        <Box mt={1}>
+                          <Button 
+                            size="small" 
+                            variant="contained" 
+                            color="warning" 
+                            fullWidth
+                            onClick={() => handleForceAllocate(match.slug)}
+                          >
+                            Wymuś alokację
+                          </Button>
+                        </Box>
+                      )}
                     </Grid>
                   );
                 })}
