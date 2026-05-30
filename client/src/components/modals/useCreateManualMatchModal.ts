@@ -156,6 +156,17 @@ export function useCreateManualMatchModal({
   const [team1NewName, setTeam1NewName] = useState<string>('');
   const [team2NewName, setTeam2NewName] = useState<string>('');
 
+  const [teamsLocked, setTeamsLocked] = useState(false);
+
+  const handleShuffle = () => {
+    const allPlayers = [...team1NewPlayerIds, ...team2NewPlayerIds];
+    const shuffled = [...allPlayers].sort(() => Math.random() - 0.5);
+    const mid = Math.ceil(shuffled.length / 2);
+    setTeam1NewPlayerIds(shuffled.slice(0, mid));
+    setTeam2NewPlayerIds(shuffled.slice(mid));
+    setTeamsLocked(true);
+  };
+
   const resetForm = () => {
     setSlug('');
     setServerId('');
@@ -167,6 +178,7 @@ export function useCreateManualMatchModal({
     setTeam2NewPlayerIds([]);
     setTeam1NewName('');
     setTeam2NewName('');
+    setTeamsLocked(false);
     setMaps([]);
     setSelectedMapPool('');
     setPlayersPerTeam(5);
@@ -944,6 +956,7 @@ export function useCreateManualMatchModal({
       team2NewName,
       busyPlayerIds,
       busyTeamIds,
+      teamsLocked,
     },
     actions: {
       setSlug,
@@ -978,6 +991,8 @@ export function useCreateManualMatchModal({
       setTeam2NewPlayerIds,
       setTeam1NewName,
       setTeam2NewName,
+      handleShuffle,
+      setTeamsLocked,
     },
   };
 }
