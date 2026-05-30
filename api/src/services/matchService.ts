@@ -262,11 +262,11 @@ class MatchService {
   async forceAllocate(slug: string): Promise<void> {
     const match = await db.getOneAsync<Match>('matches', 'slug = ?', [slug]);
     if (!match) throw new Error('Match not found');
-  
+
     await db.updateAsync('matches', { status: 'ready', server_id: null }, 'slug = ?', [slug]);
     
     log.info(`Manual allocation force-triggered for match: ${slug}`);
-  
+
     setImmediate(() => {
       void matchAllocationService.tryImmediateAllocation();
     });
