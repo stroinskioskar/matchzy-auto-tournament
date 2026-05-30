@@ -234,48 +234,49 @@ export const CreateManualMatchModal: React.FC<CreateManualMatchModalProps> = ({
             )}
 
             {activeStep === 3 && (
-            <Stack spacing={2}>
-              {!teamsLocked && (
-                <Button
-                  variant="outlined"
-                  color="secondary"
-                  onClick={handleShuffle}
-                  disabled={busyPlayerIds.size > 0 || (team1NewPlayerIds.length + team2NewPlayerIds.length) < 2}
-                >
-                  Losuj składy
-                </Button>
-              )}
-              
-              {playersPerTeam === 2 && (
-                <Typography variant="caption" color="info.main">
-                  Wykryto 2 graczy na drużynę: automatycznie włączono tryb Wingman.
-                </Typography>
-              )}
-          
-              <ManualMatchBasicsStep
-                submitAttempted={submitAttempted}
-                teams={teams}
-                team1Id={team1Id}
-                team2Id={team2Id}
-                onTeam1Change={setTeam1Id}
-                onTeam2Change={setTeam2Id}
-                loadingTeams={loadingTeams}
-                team1Mode={team1Mode}
-                team2Mode={team2Mode}
-                onTeam1ModeChange={setTeam1Mode}
-                onTeam2ModeChange={setTeam2Mode}
-                playersPerTeam={playersPerTeam}
-                players={players}
-                busyPlayerIds={busyPlayerIds}
-                busyTeamIds={busyTeamIds}
-                team1NewPlayerIds={team1NewPlayerIds}
-                onTeam1NewPlayerIdsChange={setTeam1NewPlayerIds}
-                team2NewPlayerIds={team2NewPlayerIds}
-                onTeam2NewPlayerIdsChange={setTeam2NewPlayerIds}
-                team1NewName={team1NewName}
-                team2NewName={team2NewName}
-                readOnly={teamsLocked}
-              />
+              <Stack spacing={2}>
+                {!teamsLocked && (
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    onClick={handleShuffle}
+                    disabled={busyPlayerIds.size > 0 || (team1NewPlayerIds.length + team2NewPlayerIds.length) < 2}
+                  >
+                    Losuj składy
+                  </Button>
+                )}
+                
+                {playersPerTeam === 2 && (
+                  <Typography variant="caption" color="info.main">
+                    Wykryto 2 graczy na drużynę: automatycznie włączono tryb Wingman.
+                  </Typography>
+                )}
+            
+                <ManualMatchBasicsStep
+                  submitAttempted={submitAttempted}
+                  teams={teams}
+                  team1Id={team1Id}
+                  team2Id={team2Id}
+                  onTeam1Change={setTeam1Id}
+                  onTeam2Change={setTeam2Id}
+                  loadingTeams={loadingTeams}
+                  team1Mode={team1Mode}
+                  team2Mode={team2Mode}
+                  onTeam1ModeChange={setTeam1Mode}
+                  onTeam2ModeChange={setTeam2Mode}
+                  playersPerTeam={playersPerTeam}
+                  players={players}
+                  busyPlayerIds={busyPlayerIds}
+                  busyTeamIds={busyTeamIds}
+                  team1NewPlayerIds={team1NewPlayerIds}
+                  onTeam1NewPlayerIdsChange={setTeam1NewPlayerIds}
+                  team2NewPlayerIds={team2NewPlayerIds}
+                  onTeam2NewPlayerIdsChange={setTeam2NewPlayerIds}
+                  team1NewName={team1NewName}
+                  team2NewName={team2NewName}
+                  readOnly={teamsLocked}
+                />
+              </Stack>
             )}
 
             {activeStep === 4 && (
