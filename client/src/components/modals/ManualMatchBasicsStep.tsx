@@ -28,6 +28,7 @@ interface ManualMatchBasicsStepProps {
   onTeam2NewPlayerIdsChange: (ids: string[]) => void;
   team1NewName?: string;
   team2NewName?: string;
+  readOnly?: boolean;
 }
 
 export const ManualMatchBasicsStep: React.FC<ManualMatchBasicsStepProps> = ({
@@ -52,6 +53,7 @@ export const ManualMatchBasicsStep: React.FC<ManualMatchBasicsStepProps> = ({
   onTeam2NewPlayerIdsChange,
   team1NewName,
   team2NewName,
+  readOnly = false,
 }) => {
   const effectiveSlots = Number.isFinite(playersPerTeam) && playersPerTeam > 0 ? playersPerTeam : 5;
 
@@ -88,6 +90,7 @@ export const ManualMatchBasicsStep: React.FC<ManualMatchBasicsStepProps> = ({
             return (
               <Autocomplete
                 key={index}
+                disabled={readOnly}
                 options={availableOptions}
                 value={currentPlayer}
                 onChange={(_event, newValue) => {
@@ -167,7 +170,7 @@ export const ManualMatchBasicsStep: React.FC<ManualMatchBasicsStepProps> = ({
           }
         }}
         fullWidth
-        disabled={loadingTeams}
+        disabled={loadingTeams || readOnly}
         helperText={
           teams.length === 0
             ? 'No existing teams – using a one-off team for this match.'
@@ -216,7 +219,7 @@ export const ManualMatchBasicsStep: React.FC<ManualMatchBasicsStepProps> = ({
           }
         }}
         fullWidth
-        disabled={loadingTeams}
+        disabled={loadingTeams || readOnly}
         helperText={
           teams.length === 0
             ? 'No existing teams – using a one-off team for this match.'
