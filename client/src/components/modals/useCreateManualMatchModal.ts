@@ -162,8 +162,8 @@ export function useCreateManualMatchModal({
     const allPlayers = [...team1NewPlayerIds, ...team2NewPlayerIds];
     const shuffled = [...allPlayers].sort(() => Math.random() - 0.5);
     const mid = Math.ceil(shuffled.length / 2);
-    setTeam1NewPlayerIds(shuffled.slice(0, mid));
-    setTeam2NewPlayerIds(shuffled.slice(mid));
+    setTeam1NewPlayerIds([...shuffled.slice(0, mid)]);
+    setTeam2NewPlayerIds([...shuffled.slice(mid)]);
     setTeamsLocked(true);
   };
 
