@@ -91,6 +91,7 @@ export const CreateManualMatchModal: React.FC<CreateManualMatchModalProps> = ({
       team2NewPlayerIds,
       team1NewName,
       team2NewName,
+      teamsLocked,
     },
     actions: {
       // setSlug,
@@ -124,6 +125,8 @@ export const CreateManualMatchModal: React.FC<CreateManualMatchModalProps> = ({
       setTeam2NewPlayerIds,
       // setTeam1NewName,
       // setTeam2NewName,
+      handleShuffle,
+      setTeamsLocked,
     },
   } = useCreateManualMatchModal({ open, onCreated, onClose });
 
@@ -231,6 +234,24 @@ export const CreateManualMatchModal: React.FC<CreateManualMatchModalProps> = ({
             )}
 
             {activeStep === 3 && (
+            <Stack spacing={2}>
+              {!teamsLocked && (
+                <Button
+                  variant="outlined"
+                  color="secondary"
+                  onClick={handleShuffle}
+                  disabled={busyPlayerIds.size > 0 || (team1NewPlayerIds.length + team2NewPlayerIds.length) < 2}
+                >
+                  Losuj składy
+                </Button>
+              )}
+              
+              {playersPerTeam === 2 && (
+                <Typography variant="caption" color="info.main">
+                  Wykryto 2 graczy na drużynę: automatycznie włączono tryb Wingman.
+                </Typography>
+              )}
+          
               <ManualMatchBasicsStep
                 submitAttempted={submitAttempted}
                 teams={teams}
@@ -253,6 +274,7 @@ export const CreateManualMatchModal: React.FC<CreateManualMatchModalProps> = ({
                 onTeam2NewPlayerIdsChange={setTeam2NewPlayerIds}
                 team1NewName={team1NewName}
                 team2NewName={team2NewName}
+                readOnly={teamsLocked}
               />
             )}
 
