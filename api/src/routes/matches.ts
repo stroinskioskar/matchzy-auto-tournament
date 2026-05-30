@@ -551,6 +551,20 @@ router.get('/:slug.json', async (req: Request, res: Response) => {
 });
 
 /**
+ * POST /api/matches/:slug/force-allocate
+ */
+router.post('/:slug/force-allocate', requireAuth, async (req: Request, res: Response) => {
+  try {
+    const { slug } = req.params;
+    await matchService.forceAllocate(slug);
+    return res.status(200).json({ success: true, message: 'Allocation forced' });
+  } catch (err) {
+    console.error('Force allocate error:', err);
+    return res.status(500).json({ success: false, error: (err as Error).message });
+  }
+});
+
+/**
  * DELETE /api/matches/:slug
  * Delete a match by slug (admin only).
  *
