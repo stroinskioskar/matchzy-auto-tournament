@@ -91,6 +91,14 @@ class MatchService {
         config.cvars = {
           ...(config.cvars || {}),
           ...matchzyEnhancedCvars,
+          ...(config.players_per_team === 2 ? {
+            game_mode: 2,
+            game_type: 0,
+            mp_teammates_are_enemies: 0
+          } : {
+            game_mode: 1,
+            game_type: 0
+          })
         };
         log.debug('Applied default MatchZy Enhanced cvars to manual match', {
           matchSlug: input.slug,
