@@ -258,15 +258,28 @@ class MatchService {
 
   /**
   * Force trigger allocation for a stuck match
+  * This handles both the database reset and the memory-level lock release.
   */
   async forceAllocate(slug: string): Promise<void> {
     const match = await db.getOneAsync<Match>('matches', 'slug = ?', [slug]);
     if (!match) throw new Error('Match not found');
-
-    await db.updateAsync('matches', { status: 'ready', server_id: null }, 'slug = ?', [slug]);
+  
+    log.warn(`[FORCE-ALLOCATE] Resetting state for stuck match: ${slug}`);
+  
+    if (match.server_id) {
+      serverAllocationTracker.markIdle(match.server_id);
+    }
+  
+    await db.updateAsync(
+        'matches', 
+        { status: 'ready', server_id: null }, 
+        'slug = ?', 
+        [slug]
+    );
     
-    log.info(`Manual allocation force-triggered for match: ${slug}`);
-
+    log.info(`[FORCE-ALLOCATE] Status for match ${slug} reset to 'ready'`);
+  
+    // 3. Trigger the allocator to immediately re-scan
     setImmediate(() => {
       void matchAllocationService.tryImmediateAllocation();
     });
