@@ -270,16 +270,10 @@ class MatchService {
       serverAllocationTracker.markIdle(match.server_id);
     }
   
-    await db.updateAsync(
-        'matches', 
-        { status: 'ready', server_id: null }, 
-        'slug = ?', 
-        [slug]
-    );
-    
+    await db.updateAsync('matches', { status: 'ready', server_id: null }, 'slug = ?', [slug]);
+  
     log.info(`[FORCE-ALLOCATE] Status for match ${slug} reset to 'ready'`);
   
-    // 3. Trigger the allocator to immediately re-scan
     setImmediate(() => {
       void matchAllocationService.tryImmediateAllocation();
     });
